@@ -1,4 +1,27 @@
-﻿
-<div class="container">
-   
+@using SayronPizzaMVC.Core.Entites.Product
+
+<div class="main container" style="padding: 100px 0px;">
+    <div class="main__title">
+        <h2>Pizza</h2>
+    </div>
+    <div class="main__content">
+        @if (Model!=null)
+        {
+            @foreach (var item in Model)
+            {
+                <div class="card">
+                    <div class="card__photo"><img src="@item.Img" alt=""></div>
+                    <div class="card__title">@item.Name</div>
+                    <div class="card__about">@item.Description</div>
+                    <div class="card__size">@item.Size</div>
+                    <div class="card__price">
+                        <div class="card__priceContent">@item.Price ₴</div>
+                    </div>
+                    <div class="card__button"><button>Add to card</button></div>
+                </div>
+            }
+        }
+        
+        
+    </div>
 </div>

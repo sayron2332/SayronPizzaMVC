@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using SayronPizzaMVC.Core.Entites.Category;
+using SayronPizzaMVC.Core.Entites.Product;
 using SayronPizzaMVC.Core.Entites.User;
 using SayronPizzaMVC.Infrastructure.Initializers;
 using System;
@@ -25,6 +26,8 @@ namespace SayronPizzaMVC.Infrastructure.Context
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         DbSet<AppUser> AppUsers { get; set; }
         DbSet<AppCategory> AppCatogories { get; set; }
+
+        DbSet<Product> Products { get; set; }
 
     }
 }
