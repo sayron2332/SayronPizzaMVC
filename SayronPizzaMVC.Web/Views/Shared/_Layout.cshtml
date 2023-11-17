@@ -1,49 +1,208 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SayronPizzaMVC.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SayronPizzaMVC.Web.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SayronPizzaMVC.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - SayronPizzaMVC.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="~/css/Layout//Layout.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="wrapper ">
+        <div class="container-fluid">
+            <header class="header container ">
+
+                <div class="header__showmd d-lg-none d-block">
+
+                    <h2>Sayron Pizza</h2>
+
+                </div>
+                <div class="header__row-1 row d-none d-lg-flex ">
+                    <div class="header__row-1-logos col-md-2">
+                        <a href="https://www.instagram.com/">
+                            <img src="images/logos/facebook-icon.png"
+                                 class="header__row-1-social-item"></img>
+                        </a>
+
+                        <a href="https://www.facebook.com/">
+                            <img class="header__row-1-social-item"
+                                 src="images/logos/instagram-icon.png"></img>
+                        </a>
+                    </div>
+                    <div class="header__row-1-logos col-md-5 d-none d-lg-block">
+                        <ul class="header__row-1-nav-menu row">
+                            <li class="header__row-1-nav-item col-md-3"><a href="">Гловна</a></li>
+                            <li class="header__row-1-nav-item col-md-3"><a href="">Блог</a></li>
+                            <li class="header__row-1-nav-item col-md-3"><a href="">Доставка</a></li>
+                            <li class="header__row-1-nav-item col-md-3"><a href="">Акції</a></li>
+                        </ul>
+                    </div>
+                    <div class="header__row-1-comunicate col-md-3">
+                        <img src="images/logos/phone-call.png"></img>
+                        <span>+38 (097) 043-56-65</span>
+                    </div>
+                    <div class="header__row-1-logos col-md-2">
+                        <a href="
+                        ">
+                            <img src="images/logos/user-icon.png"></img>
+                            <span>Увійти</span>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="header__row-2 row d-none d-lg-flex">
+
+                    <div class="header__row-2-title col-md-2">
+                        <a href="">
+                            <h1>Sayron Pizza</h1>
+                        </a>
+                    </div>
+
+
+                    <ul class="header__row-2-navmenu col-md-9 row ">
+
+                        <li class="header__row-2-navmenu-item col-md-2 row">
+                            <a class="header__row-2-navmenu-item-link" href="">
+                                <img src="/images/menu-icons/icon-pizza.png" alt="">
+                                <span>Піца</span>
+                            </a>
+                        </li>
+                        <li class="header__row-2-navmenu-item col-md-2">
+
+                            <a class="header__row-2-navmenu-item-link" href="">
+                                <img src="/images/menu-icons/icon-chicken.png" alt="">
+                                <span>Сайди</span>
+                            </a>
+                        </li>
+                        <li class="header__row-2-navmenu-item col-md-2">
+
+                            <a class="header__row-2-navmenu-item-link" href="">
+                                <img src="/images/menu-icons/icon-granulatedgarlic.png" alt="">
+                                <span>Салати</span>
+                            </a>
+                        </li>
+                        <li class="header__row-2-navmenu-item col-md-2">
+
+                            <a class="header__row-2-navmenu-item-link" class="row" href="">
+                                <img src="/images/menu-icons/icon-dessert.png" alt="">
+                                <span>Десерти</span>
+                            </a>
+                        </li>
+                        <li class="header__row-2-navmenu-item col-md-2">
+
+                            <a class="header__row-2-navmenu-item-link" href="">
+                                <img src="/images/menu-icons/icon-beerglass.png" alt="">
+                                <span>Напої</span>
+                            </a>
+                        </li>
+                        <li class="header__row-2-navmenu-item col-md-2">
+
+                            <a class="header__row-2-navmenu-item-link" href="">
+                                <img src="/images/menu-icons/icon-wok.png" alt="">
+                                <span>Сети</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+
+                    <div class="header__row-2-goAcount col-md-1">
+                        <a class="header__row-2-goAcount-like" href="">
+                            <img src="/images/menu-icons/icon-like.png" alt="">
+                        </a>
+                        <a class="header__row-2-goAcount-basket
+                        basket" href="">
+                            <img src="/images/menu-icons/icon-basket.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="header__row-3">
+                </div>
+            </header>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+        <div class="main" style="padding: 300px 0px;">
+            @RenderBody()
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__main row ">
+                    <div class="footer__section-left row col-md-5">
+
+                        <div class="footer__logo">
+                            <img src="/images/logos/logo-pizza.png" alt="">
+                        </div>
+                        <div class="footer__contacts row">
+
+                            <div class="">
+                                <img src="/images/logos/phone-call.png" alt="">
+                            </div>
+                            <div class="footer__contacts-phonenumbers">
+                                <span>+38 (097) 043-56-65</span>
+                                <br>
+                                <span>+38 (097) 033-32-85</span>
+                            </div>
+
+                        </div>
+                        <div class="footer__location ">
+                            <p>Місто Рівне</p>
+                            <br>
+                            <p>Вул. Степана Бандери 23</p>
+                        </div>
+
+                    </div>
+                    <div class="footer__section-right flex-wrap col-md-7 row">
+                        <div class="footer__section-right__first-collumn col-md-4">
+                            <h2>Меню</h2>
+                            <ul>
+                                <li><a href="">Піца</a></li>
+                                <li><a href="">Сайди</a></li>
+                                <li><a href="">Салати</a></li>
+                                <li><a href="">Десерти</a></li>
+                                <li><a href="">Напої</a></li>
+                                <li><a href="">Сети</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer__section-right__second-collumn col-md-4">
+                            <h2>Покупцям</h2>
+                            <ul>
+                                <li><a href="">Сторінка Бажань</a></li>
+                                <li><a href="">Правила та умови</a></li>
+                                <li><a href="">Інформація щодо вмісту алергенів</a></li>
+                                <li><a href="">Доставка</a></li>
+                                <li><a href="">FAQ</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer__section-right__three-collumn col-md-4">
+                            <h2>Інфо</h2>
+                            <ul>
+                                <li><a href="">Про нас</a></li>
+                                <li><a href="">Контакти</a></li>
+                                <li><a href="">Блог</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer__widgets row">
+                    <div>
+                        <span>© 2009 – 2023 «Sayron pizza». Всі права захищені. </span>
+                    </div>
+                    <div>
+                        <a href="https://www.instagram.com/"> <img src="images/logos/facebook-icon.png"></img></a>
+
+                        <a href="https://www.facebook.com/"><img src="images/logos/instagram-icon.png"></img></a>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
 </body>
+
 </html>

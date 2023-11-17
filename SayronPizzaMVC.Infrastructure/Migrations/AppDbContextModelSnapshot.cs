@@ -51,9 +51,15 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0d895724-94aa-4fb2-b488-e43caf7be48e",
+                            Id = "6d743396-7650-4c8f-a097-97b15e052a6f",
                             Name = "admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "6e33af4a-ab7d-44ef-b315-6fbd43c8d0cc",
+                            Name = "user",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -219,8 +225,8 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "947def7b-96f6-441e-b6c6-5560acb47288",
-                            RoleId = "0d895724-94aa-4fb2-b488-e43caf7be48e"
+                            UserId = "0ee283fa-f2c1-48a5-8b40-ee3dfe733958",
+                            RoleId = "6d743396-7650-4c8f-a097-97b15e052a6f"
                         });
                 });
 
@@ -243,6 +249,23 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SayronPizzaMVC.Core.Entites.Category.AppCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppCatogories");
+                });
+
             modelBuilder.Entity("SayronPizzaMVC.Core.Entites.User.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -260,16 +283,17 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "947def7b-96f6-441e-b6c6-5560acb47288",
+                            Id = "0ee283fa-f2c1-48a5-8b40-ee3dfe733958",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1c2a00c9-1526-48e8-aaa5-362323af9393",
+                            ConcurrencyStamp = "1093a030-f11c-4477-82f6-876a8826880e",
                             Email = "xvtnxjgbyv@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEHyry6RC/hNoJBmkjCsk5h19Css3o6Rf221HVrgloiYe/n8tvQLP8/U//Oqv/HlcvQ==",
-                            PhoneNumber = "+xx(xxx)xxx-xx-xx",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "c0c62b1f-645d-4bca-a290-a47172c1138c",
+                            NormalizedEmail = "xvtnxjgbyv@gmail.com",
+                            NormalizedUserName = "xvtnxjgbyv@gmail.com",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAyhmN4QJ6majYxDqGxzm0gYkpHOPlPkK2AxYMyo6IN7DgYJUe7IpMtiMLm7d5Y/rA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "xvtnxjgbyv@gmail.com",
                             FirstName = "Nazar",

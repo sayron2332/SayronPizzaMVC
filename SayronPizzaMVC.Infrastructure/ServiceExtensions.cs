@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SayronPizzaMVC.Core.Entites.User;
 using SayronPizzaMVC.Core.Interfaces;
+using SayronPizzaMVC.Core.Services;
 using SayronPizzaMVC.Infrastructure.Context;
 using Walter.Infrastructure.Repository;
 
@@ -18,7 +19,7 @@ namespace Walter.Infrastructure
                 opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
         }
-
+      
 
         public static void AddInfrastructureService(this IServiceCollection services)
         {
