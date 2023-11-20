@@ -20,5 +20,6 @@ namespace SayronPizzaMVC.Core.Entites.Product
         public string Price { get; set; }
         public AppCategory AppCategory { get; set; }
         public int AppCategoryId { get; set; }
+    
     }
 }
