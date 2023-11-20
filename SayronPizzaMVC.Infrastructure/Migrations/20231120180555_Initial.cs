@@ -69,6 +69,30 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Img = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppCategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_AppCatogories_AppCategoryId",
+                        column: x => x.AppCategoryId,
+                        principalTable: "AppCatogories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -179,19 +203,19 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6d743396-7650-4c8f-a097-97b15e052a6f", null, "admin", "ADMIN" },
-                    { "6e33af4a-ab7d-44ef-b315-6fbd43c8d0cc", null, "user", "USER" }
+                    { "d26e3167-e452-42d0-86b1-0e43db38b054", null, "user", "USER" },
+                    { "f315c23b-8280-428c-9c7a-2c061657f0e9", null, "admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0ee283fa-f2c1-48a5-8b40-ee3dfe733958", 0, "1093a030-f11c-4477-82f6-876a8826880e", "AppUser", "xvtnxjgbyv@gmail.com", true, "Nazar", "Kurylovych", false, null, "xvtnxjgbyv@gmail.com", "xvtnxjgbyv@gmail.com", "AQAAAAIAAYagAAAAEAyhmN4QJ6majYxDqGxzm0gYkpHOPlPkK2AxYMyo6IN7DgYJUe7IpMtiMLm7d5Y/rA==", null, false, "", false, "xvtnxjgbyv@gmail.com" });
+                values: new object[] { "c919378c-a6af-48c5-a6a0-6918b3ba61cd", 0, "9175a1c4-09ff-4c90-942a-9335c71b9429", "AppUser", "xvtnxjgbyv@gmail.com", true, "Nazar", "Kurylovych", false, null, "xvtnxjgbyv@gmail.com", "xvtnxjgbyv@gmail.com", "AQAAAAIAAYagAAAAEHz5c25aJgAdFJfiGs3B9KbG4HXVMS+w7kbgiBkPWVjAuBjQJ6ZsVm58zje0x85qBA==", null, false, "", false, "xvtnxjgbyv@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "6d743396-7650-4c8f-a097-97b15e052a6f", "0ee283fa-f2c1-48a5-8b40-ee3dfe733958" });
+                values: new object[] { "f315c23b-8280-428c-9c7a-2c061657f0e9", "c919378c-a6af-48c5-a6a0-6918b3ba61cd" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -231,14 +255,16 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_AppCategoryId",
+                table: "Products",
+                column: "AppCategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AppCatogories");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -255,10 +281,16 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AppCatogories");
         }
     }
 }

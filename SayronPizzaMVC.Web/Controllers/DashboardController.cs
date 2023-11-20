@@ -19,6 +19,7 @@ namespace SayronPizzaMVC.Web.Controllers
         }
         public IActionResult Index()
         {
+            
             return View();
         }
         [AllowAnonymous]
@@ -134,6 +135,35 @@ namespace SayronPizzaMVC.Web.Controllers
             ViewBag.AuthError = validationResult.Errors[0];
             return View(model);
         }
+        public async Task<IActionResult> Delete(string Id)
+        {
+            var user = await _userService.GetByIdAsync(Id);
+            return View(user.Payload);
+        }
+        public async Task<IActionResult> DeleteById(string Id)
+        {
+            var result = await _userService.DeleteAsync(Id);
+            if (result.Success)
+            {
+                return View(nameof(Index));
+            }
+            return View(nameof(Index));
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            var result = await _userService.ConfirmEmailAsync(userId, token);
+            if (result.Success)
+            {
+                ViewBag.AuthError = result.Message;
+                return Redirect(nameof(SignIn));
+            }
+            return Redirect(nameof(SignIn));
+        }
+
+      
 
     }
 }

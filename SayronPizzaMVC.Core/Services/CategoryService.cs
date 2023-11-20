@@ -21,23 +21,23 @@ namespace SayronPizzaMVC.Core.Services
             _categoryRepo = categoryRepo;
             _mapper = mapper;
         }
-        public async Task<ServiceResponse> GetByName(AppCategory model)
+        public async Task<ServiceResponse> GetByName(string model)
         {
-            var result = await _categoryRepo.GetItemBySpec(new CategorySpecification.GetByName(model.Name));
+            var result = await _categoryRepo.GetItemBySpec(new CategorySpecification.GetByName(model));
             if (result != null)
             {
                 return new ServiceResponse
                 {
-                    Success = false,
-                    Message = "Category exists."
+                    Success = true,
+                    Message = "Category exists.",
+                    Payload = result
                 };
             }
-            var category = _mapper.Map<AppCategory>(result);
             return new ServiceResponse
             {
                 Success = true,
                 Message = "Category successfully loaded.",
-                Payload = category
+               
             };
         }
 

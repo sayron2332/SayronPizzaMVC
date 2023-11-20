@@ -12,7 +12,7 @@ using SayronPizzaMVC.Infrastructure.Context;
 namespace SayronPizzaMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231117164834_Initial")]
+    [Migration("20231120180555_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -54,13 +54,13 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6d743396-7650-4c8f-a097-97b15e052a6f",
+                            Id = "f315c23b-8280-428c-9c7a-2c061657f0e9",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6e33af4a-ab7d-44ef-b315-6fbd43c8d0cc",
+                            Id = "d26e3167-e452-42d0-86b1-0e43db38b054",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -228,8 +228,8 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "0ee283fa-f2c1-48a5-8b40-ee3dfe733958",
-                            RoleId = "6d743396-7650-4c8f-a097-97b15e052a6f"
+                            UserId = "c919378c-a6af-48c5-a6a0-6918b3ba61cd",
+                            RoleId = "f315c23b-8280-428c-9c7a-2c061657f0e9"
                         });
                 });
 
@@ -269,6 +269,44 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.ToTable("AppCatogories");
                 });
 
+            modelBuilder.Entity("SayronPizzaMVC.Core.Entites.Product.AppProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppCategoryId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("SayronPizzaMVC.Core.Entites.User.AppUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -286,15 +324,15 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0ee283fa-f2c1-48a5-8b40-ee3dfe733958",
+                            Id = "c919378c-a6af-48c5-a6a0-6918b3ba61cd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1093a030-f11c-4477-82f6-876a8826880e",
+                            ConcurrencyStamp = "9175a1c4-09ff-4c90-942a-9335c71b9429",
                             Email = "xvtnxjgbyv@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "xvtnxjgbyv@gmail.com",
                             NormalizedUserName = "xvtnxjgbyv@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAyhmN4QJ6majYxDqGxzm0gYkpHOPlPkK2AxYMyo6IN7DgYJUe7IpMtiMLm7d5Y/rA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHz5c25aJgAdFJfiGs3B9KbG4HXVMS+w7kbgiBkPWVjAuBjQJ6ZsVm58zje0x85qBA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -353,6 +391,17 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SayronPizzaMVC.Core.Entites.Product.AppProduct", b =>
+                {
+                    b.HasOne("SayronPizzaMVC.Core.Entites.Category.AppCategory", "AppCategory")
+                        .WithMany()
+                        .HasForeignKey("AppCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppCategory");
                 });
 #pragma warning restore 612, 618
         }

@@ -33,7 +33,6 @@ namespace SayronPizzaMVC.Core.Services
             _emailService = emailService;
             _config = config;
         }
-
         public async Task SendConfirmationEmail(AppUser newUser)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
@@ -92,10 +91,28 @@ namespace SayronPizzaMVC.Core.Services
                 Message = "User or password incorrect."
             };
         }
-
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+        public async Task<ServiceResponse> GetByIdAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return new ServiceResponse { Success = false, Message = "User not found." };
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var mappedUser = _autoMapper.Map<AppUser, UsersDto>(user);
+            mappedUser.Role = roles[0];
+
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = "User loaded!",
+                Payload = mappedUser
+            };
         }
         public async Task<ServiceResponse> ResetPasswordAsync(ForgotPasswordDto model)
         {
@@ -150,7 +167,7 @@ namespace SayronPizzaMVC.Core.Services
             var encodedEmailToken = Encoding.UTF8.GetBytes(token);
             var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
 
-            var url = $"{_config["HostSettings:URL"]}Dashboard/ResetPassword?email={Email}&token={validEmailToken}";
+            var url = $"{_config["HostSettings:URL"]}/Dashboard/ResetPassword?email={Email}&token={validEmailToken}";
             await _emailService.SendEmailAsync(Email, "Reset Password email.", url);
 
             return new ServiceResponse
@@ -160,7 +177,6 @@ namespace SayronPizzaMVC.Core.Services
             };
 
         }
-
         public async Task<ServiceResponse> GetAllAsync()
         {
             List<AppUser> users = await _userManager.Users.ToListAsync();
@@ -177,7 +193,76 @@ namespace SayronPizzaMVC.Core.Services
                 Payload = mappedUsers
             };
         }
+        public async Task<ServiceResponse> DeleteAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "User not found."
+                };
+            }
 
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return new ServiceResponse
+                {
+                    Success = true,
+                    Message = "User successfully deleted."
+                };
+            }
+
+            return new ServiceResponse
+            {
+                Success = false,
+                Message = "Sonething wrong. Connect with your admin.",
+                Errors = result.Errors.Select(e => e.Description)
+            };
+        }
+        public async Task SendConfirmEmailAsync(AppUser NewUser)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(NewUser);
+            var encodedEmailToken = Encoding.UTF8.GetBytes(token);
+            var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
+
+            var url = $"{_config["HostSettings:URL"]}/Dashboard/confirmemail?userid={NewUser.Id}&token={validEmailToken}";
+            await _emailService.SendEmailAsync(NewUser.Email, "Confirmation email", url);
+        }
+        public async Task<ServiceResponse> ConfirmEmailAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "User not found."
+                };
+            }
+
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+            var normalToken = Encoding.UTF8.GetString(decodedToken);
+            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+
+            if (result.Succeeded)
+            {
+                return new ServiceResponse
+                {
+                    Success = true,
+                    Message = "Email successfully confirmed."
+                };
+            }
+
+            return new ServiceResponse
+            {
+                Success = false,
+                Message = "Email not confirmed.",
+                Errors = result.Errors.Select(e => e.Description)
+            };
+        }
         public async Task<ServiceResponse> CreateAsync(CreateUserDto model)
         { 
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -193,6 +278,9 @@ namespace SayronPizzaMVC.Core.Services
             var result = await _userManager.CreateAsync(mappedUser);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(mappedUser, model.Role);
+                await SendConfirmEmailAsync(mappedUser);
+
                 return new ServiceResponse
                 {
                     Success = true,

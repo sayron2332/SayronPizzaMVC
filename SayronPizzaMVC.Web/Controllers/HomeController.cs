@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SayronPizzaMVC.Core.Services;
 using SayronPizzaMVC.Web.Models;
 using System.Diagnostics;
 
@@ -6,15 +7,16 @@ namespace SayronPizzaMVC.Web.Controllers
 {
     public class HomeController : Controller
     {
-        
-        public HomeController()
+        private readonly ProductService _productService;
+        public HomeController(ProductService productService)
         {
-           
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var result = await _productService.GetAllPizza();
+            return View(result.Payload);
 
         }
         public IActionResult PrintDrinks() { 

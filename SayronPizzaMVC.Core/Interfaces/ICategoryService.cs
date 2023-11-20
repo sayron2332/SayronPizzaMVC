@@ -13,7 +13,7 @@ namespace SayronPizzaMVC.Core.Interfaces
     {
         Task<List<AppCategory>> GetAll();
         Task<AppCategory> Get(int id);
-        Task<ServiceResponse> GetByName(AppCategory model);
+        Task<ServiceResponse> GetByName(string model);
         Task Create(AppCategory model);
         Task Update(AppCategory model);
         Task Delete(int id);

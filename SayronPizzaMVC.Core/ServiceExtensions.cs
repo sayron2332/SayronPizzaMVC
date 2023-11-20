@@ -16,6 +16,7 @@ namespace SayronPizzaMVC.Core
             services.AddTransient<UserService>();
             services.AddTransient<EmailService>();
             services.AddTransient<CategoryService>();
+            services.AddTransient<ProductService>();
         }
         public static void AddMapping(this IServiceCollection services)
         {
