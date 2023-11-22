@@ -58,5 +58,13 @@ namespace SayronPizzaMVC.Core.Services
 
 
         }
+
+        public async Task<ServiceResponse> GetAllProducts()
+        {
+            var result = await _productRepo.GetAll();
+            List<ProductDto> productsList = _mapper.Map<List<ProductDto>>(result);
+            
+            return new ServiceResponse { Success = true, Payload = productsList };
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace SayronPizzaMVC.Core.Interfaces
     internal interface IProductService
     {
         public Task<ServiceResponse> GetAllPizza();
+        public Task<ServiceResponse> GetAllProducts();
 
 
     }
