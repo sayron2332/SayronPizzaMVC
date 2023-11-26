@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using SayronPizzaMVC.Core.DTO_s.Categories;
 using SayronPizzaMVC.Core.Entites.Category;
 using SayronPizzaMVC.Core.Services;
 using System;
@@ -11,11 +12,11 @@ namespace SayronPizzaMVC.Core.Interfaces
 {
     internal interface ICategoryService
     {
-        Task<List<AppCategory>> GetAll();
-        Task<AppCategory> Get(int id);
-        Task<ServiceResponse> GetByName(string model);
-        Task Create(AppCategory model);
-        Task Update(AppCategory model);
+        Task<List<CategoryDto>> GetAll();
+        Task<CategoryDto> Get(int id);
+        Task<ServiceResponse> GetByName(CategoryDto model);
+        Task Create(CategoryDto model);
+        Task Update(CategoryDto model);
         Task Delete(int id);
     }
 }

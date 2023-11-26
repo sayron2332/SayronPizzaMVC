@@ -12,11 +12,18 @@ namespace SayronPizzaMVC.Core.Entites.Specification
 {
     public class ProductSpecification 
     {
-        public class GetAllByCategory : Specification<AppProduct>
+        public class GetAllByCategoryName : Specification<AppProduct>
         {
-            public GetAllByCategory(AppCategory category)
+            public GetAllByCategoryName(string name)
             {
-                Query.Where(p => p.AppCategoryId == category.Id);
+                Query.Where(p => p.AppCategory.Name == name);
+            }
+        }
+        public class All : Specification<AppProduct>
+        {
+            public All()
+            {
+                Query.Include(x => x.AppCategory);
             }
         }
     }

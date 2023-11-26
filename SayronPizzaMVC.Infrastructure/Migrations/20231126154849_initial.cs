@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SayronPizzaMVC.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,23 +69,23 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "AppProducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Img = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppCategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_AppProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_AppCatogories_AppCategoryId",
+                        name: "FK_AppProducts_AppCatogories_AppCategoryId",
                         column: x => x.AppCategoryId,
                         principalTable: "AppCatogories",
                         principalColumn: "Id",
@@ -203,19 +203,24 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "d26e3167-e452-42d0-86b1-0e43db38b054", null, "user", "USER" },
-                    { "f315c23b-8280-428c-9c7a-2c061657f0e9", null, "admin", "ADMIN" }
+                    { "61ac582a-76b3-43b5-bb17-6e223aeffd9a", null, "user", "USER" },
+                    { "9ff7cecf-0791-4474-87ee-3bfe49faba19", null, "admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "c919378c-a6af-48c5-a6a0-6918b3ba61cd", 0, "9175a1c4-09ff-4c90-942a-9335c71b9429", "AppUser", "xvtnxjgbyv@gmail.com", true, "Nazar", "Kurylovych", false, null, "xvtnxjgbyv@gmail.com", "xvtnxjgbyv@gmail.com", "AQAAAAIAAYagAAAAEHz5c25aJgAdFJfiGs3B9KbG4HXVMS+w7kbgiBkPWVjAuBjQJ6ZsVm58zje0x85qBA==", null, false, "", false, "xvtnxjgbyv@gmail.com" });
+                values: new object[] { "2fe7e804-c98f-402e-98d3-2e3189de7739", 0, "1a811d55-fcee-4691-b590-91d349ebbb96", "AppUser", "xvtnxjgbyv@gmail.com", true, "Nazar", "Kurylovych", false, null, "xvtnxjgbyv@gmail.com", "xvtnxjgbyv@gmail.com", "AQAAAAIAAYagAAAAEJirhvpzNlA9O+2mEBAREhwOw8ByrZvVzCPVn3r3ng9GsqA1a9eqlCUBC/0vaMvwgQ==", null, false, "", false, "xvtnxjgbyv@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "f315c23b-8280-428c-9c7a-2c061657f0e9", "c919378c-a6af-48c5-a6a0-6918b3ba61cd" });
+                values: new object[] { "9ff7cecf-0791-4474-87ee-3bfe49faba19", "2fe7e804-c98f-402e-98d3-2e3189de7739" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppProducts_AppCategoryId",
+                table: "AppProducts",
+                column: "AppCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -255,16 +260,14 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_AppCategoryId",
-                table: "Products",
-                column: "AppCategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppProducts");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -281,16 +284,13 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "AppCatogories");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "AppCatogories");
         }
     }
 }

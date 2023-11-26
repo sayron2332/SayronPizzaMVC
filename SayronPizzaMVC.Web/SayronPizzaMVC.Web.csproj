@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\4w0q5u5o.tt2~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +26,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="wwwroot\css\HomePage\" />
+    <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\images\products\" />
   </ItemGroup>
 

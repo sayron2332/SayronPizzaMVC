@@ -2,9 +2,10 @@
 @model ProductDto
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Edit product";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
-    <link rel="stylesheet" href="~/dashboard/plugins/summernote/summernote-bs4.min.css" />
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/dashboard/plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
 }
 
@@ -15,12 +16,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Product managament</h1>
+                    <h1>Edit product</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
-                        <li class="breadcrumb-item active">Create product</li>
+                        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                        <li class="breadcrumb-item active">Edit product</li>
                     </ol>
                 </div>
             </div>
@@ -30,105 +31,119 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- SELECT2 EXAMPLE -->
-            <div class="card card-default">
-                <div class="card-header">
-                    <h3 class="card-title">Create product</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-5 offset-3">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">New product</h3>
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-7 offset-2">
+                    <!-- general form elements -->
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Update product</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        @if (@ViewBag.CreateProductError != null)
+                        {
+                            <span class="text-danger mt-3">@ViewBag.CreateProductError</span>
+                        }
+                        <form method="post" asp-controller="Product" asp-action="Edit" enctype="multipart/form-data">
+                            
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input type="text" asp-for="@Model.Name" class="form-control" placeholder="Name">
                                 </div>
-                                @if (@ViewBag.AuthError != null)
-                                {
-                                    <span class="text-danger mt-3">@ViewBag.AuthError</span>
-                                }
-
-                                <form method="post" asp-controller="Product" asp-action="Create" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Description</label>
                                     <div class="card-body">
-                                        <div class="form-group">
-                                            <label>Name</label>
-                                            <input type="text" asp-for="@Model.Name" class="form-control" placeholder="Name" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <input type="text" asp-for="@Model.Description" class="form-control" placeholder="Description" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Price</label>
-                                            <input type="number" asp-for="@Model.Price" class="form-control" placeholder="Price" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Size</label>
-                                            <input type="number" asp-for="@Model.Size" class="form-control" placeholder="Size" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Category</label>
-                                            <select asp-for="AppCategoryId" asp-items="ViewBag.CategoryList" class="custom-select form-control-border"></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Image</label>
-                                           
-                                            <div class=" input-group">
-                                                <div class="custom-file">
-                                                    <div class="custom-file">
-                                                        <input type="file" id="Image" name="files" asp-for="@Model.File" class="custom-file-input" />
-                                                        <label class="custom-file-label">Choose file...</label>
-                                                    </div>
-                                                </div>
+                                        <input type="text" asp-for="@Model.Description" class="form-control" placeholder="Description">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Size</label>
+                                    <div class="card-body">
+                                        <input type="text" asp-for="@Model.Size" class="form-control" placeholder="Size">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <div class="card-body">
+                                        <input type="text" asp-for="@Model.Price" class="form-control" placeholder="Price">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Category">Category</label>
+                                    <select asp-for="AppCategoryId" class="custom-select form-control-border" asp-items="ViewBag.CategoryList"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Image</label>
+
+                                    <div class=" input-group">
+                                        <div class="custom-file">
+                                            <div class="custom-file">
+                                                <input type="file" id="Image" name="files" asp-for="@Model.File" class="custom-file-input" />
+                                                <label class="custom-file-label">Choose file...</label>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Cropped Image</label>
-                                            <div id="croppedImage"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" id="cropButton" class="btn btn-primary">Crop Image</button>
-                                        </div>
-                                        <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Create</button>
-                                        </div>
                                     </div>
-                                </form>
-                            
+                                </div>
+                                <div class="form-group">
+                                    <label>Cropped Image</label>
+                                    <div id="croppedImage"></div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" id="cropButton" class="btn btn-primary">Crop Image</button>
+                                </div>
+                                <div class="form-group">
+                                    @if (@Model.ImagePath == "Default.png")
+                                    {
+                                        <img src="~/images/main/content-images/1.jpg" alt="Photo">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/products/@Model.ImagePath" alt="Photo">
+                                    }
+                                </div>
                             </div>
-                        </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-warning">Update</button>
+                            </div>
+                        </form>
                     </div>
+                    <!-- /.card -->
                 </div>
-                <!-- /.card -->
+                <!--/.col (left) -->
             </div>
             <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
+        </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
 
 @section Scripts{
-    <script src="~/dashboard/plugins/summernote/summernote-bs5.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/dashboard/plugins/summernote/summernote-bs4.min.js"></script>
     <script>
         $(function () {
+            // Summernote
             $('#summernote').summernote({
                 minHeight: 200
             })
+        })
 
+        $(function () {
+            // Summernote
             $('#text').summernote({
-                minHeight: 200
+                minHeight: 400
             })
         })
+
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
     <script>
@@ -136,8 +151,8 @@
             var $imageInput = $('#Image');
             var $croppedImage = $('#croppedImage');
             var $cropper;
-       
-          
+
+
 
             // Зберігаємо обрізане зображення на клієнті
             var croppedImageData = null;
@@ -212,7 +227,7 @@
                     });
                 }
             });
-        
+
             function dataURItoBlob(dataURI) {
                 var byteString = atob(dataURI.split(',')[1]);
                 var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];

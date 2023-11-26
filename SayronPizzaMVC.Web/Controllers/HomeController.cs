@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SayronPizzaMVC.Core.DTO_s.Products;
 using SayronPizzaMVC.Core.Services;
 using SayronPizzaMVC.Web.Models;
 using System.Diagnostics;
@@ -15,8 +16,8 @@ namespace SayronPizzaMVC.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = await _productService.GetAllPizza();
-            return View(result.Payload);
+            List<PizzaDto> result = await _productService.GetAllPizza();
+            return View(result);
 
         }
         public IActionResult PrintDrinks() { 

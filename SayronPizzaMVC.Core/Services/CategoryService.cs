@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using AutoMapper;
+using SayronPizzaMVC.Core.DTO_s.Categories;
 using SayronPizzaMVC.Core.Entites.Category;
 using SayronPizzaMVC.Core.Entites.Specification;
 using SayronPizzaMVC.Core.Interfaces;
@@ -21,48 +22,9 @@ namespace SayronPizzaMVC.Core.Services
             _categoryRepo = categoryRepo;
             _mapper = mapper;
         }
-        public async Task<ServiceResponse> GetByName(string model)
-        {
-            var result = await _categoryRepo.GetItemBySpec(new CategorySpecification.GetByName(model));
-            if (result != null)
-            {
-                return new ServiceResponse
-                {
-                    Success = true,
-                    Message = "Category exists.",
-                    Payload = result
-                };
-            }
-            return new ServiceResponse
-            {
-                Success = true,
-                Message = "Category successfully loaded.",
-               
-            };
-        }
-
-        public async Task<List<AppCategory>> GetAll()
-        {
-            var result = await _categoryRepo.GetAll();
-            return _mapper.Map<List<AppCategory>>(result);
-        }
-        public async Task<AppCategory> Get(int id)
-        {
-            if (id < 0) return null;
-
-            var category = await _categoryRepo.GetByID(id);
-            if (category == null) return null;
-
-            return _mapper.Map<AppCategory>(category);
-        }
-        public async Task Create(AppCategory model)
+        public async Task Create(CategoryDto model)
         {
             await _categoryRepo.Insert(_mapper.Map<AppCategory>(model));
-            await _categoryRepo.Save();
-        }
-        public async Task Update(AppCategory model)
-        {
-            await _categoryRepo.Update(_mapper.Map<AppCategory>(model));
             await _categoryRepo.Save();
         }
 
@@ -71,6 +33,48 @@ namespace SayronPizzaMVC.Core.Services
             var result = await Get(id);
             if (result != null) return;
             await _categoryRepo.Delete(id);
+            await _categoryRepo.Save();
+        }
+
+        public async Task<CategoryDto> Get(int id)
+        {
+            if (id < 0) return null;
+
+            var category = await _categoryRepo.GetByID(id);
+            if (category == null) return null;
+
+            return _mapper.Map<CategoryDto>(category);
+        }
+
+        public async Task<ServiceResponse> GetByName(CategoryDto model)
+        {
+            var result = await _categoryRepo.GetItemBySpec(new CategorySpecification.GetByName(model.Name));
+            if (result != null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "Category exists."
+                };
+            }
+            var category = _mapper.Map<CategoryDto>(result);
+            return new ServiceResponse
+            {
+                Success = true,
+                Message = "Category successfully loaded.",
+                Payload = category
+            };
+        }
+
+        public async Task<List<CategoryDto>> GetAll()
+        {
+            var result = await _categoryRepo.GetAll();
+            return _mapper.Map<List<CategoryDto>>(result);
+        }
+
+        public async Task Update(CategoryDto model)
+        {
+            await _categoryRepo.Update(_mapper.Map<AppCategory>(model));
             await _categoryRepo.Save();
         }
 

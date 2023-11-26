@@ -26,7 +26,7 @@ namespace SayronPizzaMVC.Infrastructure.Context
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         DbSet<AppUser> AppUsers { get; set; }
         DbSet<AppCategory> AppCatogories { get; set; }
-        DbSet<AppProduct> Products { get; set; }
+        DbSet<AppProduct> AppProducts { get; set; }
 
     }
 }

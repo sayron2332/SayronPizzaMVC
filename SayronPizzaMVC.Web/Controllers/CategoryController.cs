@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SayronPizzaMVC.Core.DTO_s.Categories;
 using SayronPizzaMVC.Core.Entites.Category;
 using SayronPizzaMVC.Core.Services;
 
 namespace SayronPizzaMVC.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly CategoryService _categoryService;
@@ -25,7 +26,7 @@ namespace SayronPizzaMVC.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AppCategory category)
+        public async Task<IActionResult> Create(CategoryDto category)
         {
             if (category.Name != null)
             {

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SayronPizzaMVC.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class DashboardController : Controller
     {
         private readonly UserService _userService;

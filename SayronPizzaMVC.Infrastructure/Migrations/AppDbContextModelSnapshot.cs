@@ -51,13 +51,13 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f315c23b-8280-428c-9c7a-2c061657f0e9",
+                            Id = "9ff7cecf-0791-4474-87ee-3bfe49faba19",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d26e3167-e452-42d0-86b1-0e43db38b054",
+                            Id = "61ac582a-76b3-43b5-bb17-6e223aeffd9a",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -225,8 +225,8 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "c919378c-a6af-48c5-a6a0-6918b3ba61cd",
-                            RoleId = "f315c23b-8280-428c-9c7a-2c061657f0e9"
+                            UserId = "2fe7e804-c98f-402e-98d3-2e3189de7739",
+                            RoleId = "9ff7cecf-0791-4474-87ee-3bfe49faba19"
                         });
                 });
 
@@ -281,8 +281,7 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Img")
-                        .IsRequired()
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -301,7 +300,7 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
 
                     b.HasIndex("AppCategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("AppProducts");
                 });
 
             modelBuilder.Entity("SayronPizzaMVC.Core.Entites.User.AppUser", b =>
@@ -321,15 +320,15 @@ namespace SayronPizzaMVC.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c919378c-a6af-48c5-a6a0-6918b3ba61cd",
+                            Id = "2fe7e804-c98f-402e-98d3-2e3189de7739",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9175a1c4-09ff-4c90-942a-9335c71b9429",
+                            ConcurrencyStamp = "1a811d55-fcee-4691-b590-91d349ebbb96",
                             Email = "xvtnxjgbyv@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "xvtnxjgbyv@gmail.com",
                             NormalizedUserName = "xvtnxjgbyv@gmail.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHz5c25aJgAdFJfiGs3B9KbG4HXVMS+w7kbgiBkPWVjAuBjQJ6ZsVm58zje0x85qBA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJirhvpzNlA9O+2mEBAREhwOw8ByrZvVzCPVn3r3ng9GsqA1a9eqlCUBC/0vaMvwgQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

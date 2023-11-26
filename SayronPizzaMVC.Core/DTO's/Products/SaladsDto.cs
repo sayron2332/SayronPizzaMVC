@@ -8,7 +8,7 @@ namespace SayronPizzaMVC.Core.DTO_s.Products
 {
     public class SaladsDto
     {
-        public string Img { get; set; }
+        public string? ImagePath { get; set; } = "Default.png";
         public string Name { get; set; }
 
         public string Description { get; set; }

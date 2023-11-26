@@ -1,7 +1,15 @@
-﻿<!-- Main Sidebar Container -->
+﻿@using Microsoft.AspNetCore.Identity;
+@using SayronPizzaMVC.Core.Entites.User;
+
+@inject UserManager<AppUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var email = await UserManager.GetEmailAsync(user);
+}
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a asp-action="Index" asp-controller="Dashboard" class="brand-link">
         <img src="~/dashboard/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Walter</span>
     </a>
@@ -14,7 +22,7 @@
                 <img src="~/dashboard/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">@user.FirstName @user.LastName</a>
             </div>
         </div>
 
