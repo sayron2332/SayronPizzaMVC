@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SayronPizzaMVC.Core.Interfaces;
 using SayronPizzaMVC.Infrastructure.Context;
 
-namespace Walter.Infrastructure.Repository
+namespace SayronPizzaMVC.Infrastructure.Repository
 {
     internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {

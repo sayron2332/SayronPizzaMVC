@@ -5,9 +5,9 @@ using SayronPizzaMVC.Core.Entites.User;
 using SayronPizzaMVC.Core.Interfaces;
 using SayronPizzaMVC.Core.Services;
 using SayronPizzaMVC.Infrastructure.Context;
-using Walter.Infrastructure.Repository;
+using SayronPizzaMVC.Infrastructure.Repository;
 
-namespace Walter.Infrastructure
+namespace SayronPizzaMVC.Infrastructure
 {
     public static class ServiceExtensions
     {
