@@ -24,6 +24,11 @@ namespace SayronPizzaMVC.Web.Controllers
             return View();
         }
 
+        public IActionResult PrintBasket()
+        {
+            return View();
+        }
+
         public IActionResult PrintSides()
         {
             return View();
