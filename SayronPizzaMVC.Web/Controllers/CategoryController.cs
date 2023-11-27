@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SayronPizzaMVC.Core.DTO_s.Categories;
 using SayronPizzaMVC.Core.Entites.Category;
 using SayronPizzaMVC.Core.Services;
+using SayronPizzaMVC.Core.Validation.Category;
 
 namespace SayronPizzaMVC.Web.Controllers
 {
@@ -28,7 +29,9 @@ namespace SayronPizzaMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryDto category)
         {
-            if (category.Name != null)
+            var validator = new CreateCategoryValidation();
+            var validateResult = validator.Validate(category);
+            if (validateResult.IsValid)
             {
                 await _categoryService.Create(category);
                 ViewBag.AuthError = "category successfully add";

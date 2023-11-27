@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SayronPizzaMVC.Core.DTO_s;
+using SayronPizzaMVC.Core.Entites.Category;
 using SayronPizzaMVC.Core.Entites.User;
 using SayronPizzaMVC.Core.Services;
 using SayronPizzaMVC.Core.Validation.User;
@@ -13,9 +16,11 @@ namespace SayronPizzaMVC.Web.Controllers
     public class DashboardController : Controller
     {
         private readonly UserService _userService;
+        
         public DashboardController(UserService userService)
         {
             _userService = userService;
+            
         }
         public IActionResult Index()
         {
@@ -163,7 +168,44 @@ namespace SayronPizzaMVC.Web.Controllers
             return Redirect(nameof(SignIn));
         }
 
-      
+        public async Task<IActionResult> Edit(string id)
+        {
+
+            var result = await _userService.GetByIdAsync(id);
+            await GetRoles();
+            if (result.Success)
+            {
+                return View(result.Payload);
+            }
+            return View();
+        }
+        public async Task<IActionResult> EditUser(EditUserDto editUser)
+        {
+            EditUserValidation validation = new EditUserValidation();
+            var validationResult = validation.Validate(editUser);
+            if (validationResult.IsValid)
+            {
+                var result = await _userService.UpdateUserAsync(editUser);
+                if (result.Success)
+                {
+
+                    return View("Index");
+                }
+                ViewBag.AuthError = result.Message;
+                return View("Edit");
+            }
+            ViewBag.AuthError = validationResult.Errors[0];
+            return View("Edit");
+        }
+
+        private async Task GetRoles()
+        {
+            var result = await _userService.LoadRoles();
+            @ViewBag.RoleList = new SelectList(
+          (System.Collections.IEnumerable)result, nameof(IdentityRole.Id),
+              nameof(IdentityRole.Name)
+              );
+        }
 
     }
 }

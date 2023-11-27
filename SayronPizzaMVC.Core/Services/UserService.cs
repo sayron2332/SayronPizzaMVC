@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,13 +26,15 @@ namespace SayronPizzaMVC.Core.Services
         private readonly IMapper _autoMapper;
         private readonly EmailService _emailService;
         private readonly IConfiguration _config;
-        public UserService(IConfiguration config,UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper autoMapper, EmailService emailService) 
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public UserService(RoleManager<IdentityRole> roleManager, IConfiguration config,UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper autoMapper, EmailService emailService) 
         { 
             _userManager = userManager;
             _signInManager = signInManager;
             _autoMapper = autoMapper;
             _emailService = emailService;
             _config = config;
+            _roleManager = roleManager;
         }
         public async Task SendConfirmationEmail(AppUser newUser)
         {
@@ -42,6 +45,11 @@ namespace SayronPizzaMVC.Core.Services
             var url = $"{_config["HostSettings:URL"]}/Dashboard/confirmemail?userid={newUser.Id}&token={validEmailToken}";
             string body = $"<h1>Confirm your email</h1> <a href='{url}'>Confirm now!</a>";
             await _emailService.SendEmailAsync(newUser.Email, "Confirmation email.", body);
+        }
+        public async Task<List<IdentityRole>> LoadRoles()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+            return roles;
         }
         public async Task<ServiceResponse> LoginUserAsync(LoginUserDto model)
         {
@@ -57,7 +65,7 @@ namespace SayronPizzaMVC.Core.Services
                 };
             }
         
-            SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password,model.RememberMe, lockoutOnFailure: true);
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password,model.RememberMe, lockoutOnFailure: true);
             if (result.Succeeded)
             {
              
@@ -104,7 +112,8 @@ namespace SayronPizzaMVC.Core.Services
             }
 
             var roles = await _userManager.GetRolesAsync(user);
-            var mappedUser = _autoMapper.Map<AppUser, UsersDto>(user);
+            EditUserDto mappedUser = _autoMapper.Map<EditUserDto>(user);
+          
             mappedUser.Role = roles[0];
 
             return new ServiceResponse
@@ -303,6 +312,80 @@ namespace SayronPizzaMVC.Core.Services
             };
 
         }
+        public async Task<ServiceResponse> UpdateUserAsync(EditUserDto model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+            else
+            {
+                var currentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+                if (user.Email != model.Email)
+                {
+
+                    await _userManager.RemoveFromRoleAsync(user, currentRole);
+                    var res = await _userManager.FindByIdAsync(model.Email);
+                    res.EmailConfirmed = false;
+                    var confirmationResut = await _userManager.UpdateAsync(res);
+                }
+
+
+
+                if (currentRole != model.Role)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, currentRole);
+                }
+
+
+
+                var updatedUser = _autoMapper.Map<AppUser>(user);
+                updatedUser.Email = model.Email;
+                updatedUser.FirstName = model.FirstName;
+                updatedUser.LastName = model.LastName;
+                updatedUser.UserName = model.Email;
+
+                await _userManager.AddToRoleAsync(updatedUser, model.Role);
+
+                var result = await _userManager.UpdateAsync(updatedUser);
+                if (result.Succeeded)
+                {
+
+                    if (updatedUser.EmailConfirmed)
+                    {
+                        return new ServiceResponse
+                        {
+                            Message = "User successfully updated.",
+                            Success = true
+                        };
+                    }
+                    else
+                    {
+                        await SendConfirmEmailAsync(updatedUser);
+                        return new ServiceResponse
+                        {
+                            Message = "Confirm email please.",
+                            Success = true
+                        };
+                    }
+                }
+
+                return new ServiceResponse
+                {
+                    Message = "Email possibly used. Try another email.",
+                    Success = false,
+                    Errors = result.Errors.Select(e => e.Description),
+                };
+
+            }
+        }
+
 
     }
 }

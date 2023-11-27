@@ -44,11 +44,17 @@ namespace SayronPizzaMVC.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductDto model)
         {
-            var files = HttpContext.Request.Form.Files;
-            model.File = files;
-            await _productService.Create(model);
-            return RedirectToAction("Index", "Product");
-            
+            var validator = new CreateProductValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var files = HttpContext.Request.Form.Files;
+                model.File = files;
+                await _productService.Create(model);
+                return RedirectToAction("Index", "Product");
+            }
+            ViewBag.AuthError = validationResult.Errors[0];
+            return View();
         }
       
         public async Task<IActionResult> Edit(int id)
@@ -74,7 +80,7 @@ namespace SayronPizzaMVC.Web.Controllers
                 await _productService.Update(model);
                 return RedirectToAction("Index", "Product");
             }
-            ViewBag.CreatePostError = validationResult.Errors[0];
+            ViewBag.CreateProductError = validationResult.Errors[0];
             return View(model);
         }
         private async Task LoadCategories()

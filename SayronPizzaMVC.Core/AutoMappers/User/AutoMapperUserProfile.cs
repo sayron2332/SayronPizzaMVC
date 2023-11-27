@@ -16,6 +16,7 @@ namespace SayronPizzaMVC.Core.AutoMappers.User
             CreateMap<LoginUserDto, AppUser>().ReverseMap();
             CreateMap<UsersDto, AppUser>().ReverseMap();
             CreateMap<CreateUserDto, AppUser>().ForMember(dst => dst.UserName, act => act.MapFrom(src => src.Email));
+            CreateMap<AppUser, EditUserDto>().ReverseMap();
         }
      
     }
