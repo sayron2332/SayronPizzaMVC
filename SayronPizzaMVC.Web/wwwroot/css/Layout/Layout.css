@@ -354,3 +354,27 @@ body {
         width: 212px;
         height: 38px;
     }
+
+
+.basket{
+   
+}
+
+.basket__title h1{
+    text-align:center;
+    font-size: 30px;
+    font-weight:900;
+}
+
+.basket__table table {
+    width:500px;
+}
+
+.basket__table tr:first-child{
+    display:flex;
+    max-width:500px;
+}
+
+.basket__table th{
+    
+}

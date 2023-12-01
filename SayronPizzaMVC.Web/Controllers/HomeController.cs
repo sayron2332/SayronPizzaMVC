@@ -21,25 +21,9 @@ namespace SayronPizzaMVC.Web.Controllers
 
         }
 
-        [Route("Error/{statusCode}")]
-        public IActionResult Error(int statusCode)
+        public async Task<IActionResult> PrintSides()
         {
-            switch (statusCode)
-            {
-                case 404:
-                    return View("NotFound");
-                    break;
-                default:
-                    return View("Error");
-            }
-        }
-        public async Task<IActionResult> PrintDrinks() {
-            List<DrinkDto> result = await _productService.GetAllDrinks();
-            return View(result);
-        }
-        public async Task<IActionResult> PrintDesserts()
-        {
-            List<DessertsDto> result = await _productService.GetAllDesserts();
+            List<SidesDto> result = await _productService.GetAllSides();
             return View(result);
         }
         public async Task<IActionResult> PrintSalads()
@@ -47,9 +31,9 @@ namespace SayronPizzaMVC.Web.Controllers
             List<SaladsDto> result = await _productService.GetAllSalads();
             return View(result);
         }
-        public async Task<IActionResult> PrintSides()
+        public async Task<IActionResult> PrintDesserts()
         {
-            List<SidesDto> result = await _productService.GetAllSides();
+            List<DessertsDto> result = await _productService.GetAllDesserts();
             return View(result);
         }
 
