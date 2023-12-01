@@ -146,8 +146,13 @@ namespace SayronPizzaMVC.Core.Services
             var result = await _productRepo.GetListBySpec(new ProductSpecification.ByCategory(id));
             return _mapper.Map<List<ProductDto>>(result);
         }
+        public async Task<List<ProductDto>> Search(string searchString)
+        {
+            var result = await _productRepo.GetListBySpec(new ProductSpecification.Search(searchString));
+            return _mapper.Map<List<ProductDto>>(result);
+        }
 
-      
+
 
 
     }

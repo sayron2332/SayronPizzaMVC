@@ -86,7 +86,20 @@ namespace SayronPizzaMVC.Web.Controllers
             await LoadCategories();
             return View(model);
         }
-      
+
+        public async Task<IActionResult> Search([FromForm] string searchString)
+        {
+
+            List<ProductDto> products = await _productService.Search(searchString);
+            if (searchString == null)
+            {
+                products = await _productService.GetAllProducts();
+            }
+            int pageSize = 20;
+            int pageNumber = 1;
+            return View("Index", products.ToPagedList(pageNumber, pageSize));
+        }
+
         private async Task LoadCategories()
         {
             ViewBag.CategoryList = new SelectList(

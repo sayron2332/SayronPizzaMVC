@@ -36,5 +36,14 @@ namespace SayronPizzaMVC.Core.Entites.Specification
                   .Where(c => c.AppCategoryId == categoryId).OrderByDescending(x => x.Id); ;
             }
         }
+        public class Search : Specification<AppProduct>
+        {
+            public Search(string searchString)
+            {
+                Query
+                    .Include(p => p.AppCategory)
+                    .Where(p => p.Name.Contains(searchString)).OrderByDescending(p => p.Id);
+            }
+        }
     }
 }

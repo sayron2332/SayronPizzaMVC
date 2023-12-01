@@ -225,7 +225,7 @@ namespace SayronPizzaMVC.Web.Controllers
             }
             else
             {
-                return View(validationResult.Errors);
+                return View("Profile",validationResult.Errors);
             }
         }
         private async Task GetRoles()
