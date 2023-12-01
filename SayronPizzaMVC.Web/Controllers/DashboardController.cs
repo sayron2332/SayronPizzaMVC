@@ -30,6 +30,11 @@ namespace SayronPizzaMVC.Web.Controllers
         [AllowAnonymous]
         public IActionResult SignIn()
         {
+            var user = HttpContext.User.Identity.IsAuthenticated;
+            if (user)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
 
@@ -38,6 +43,7 @@ namespace SayronPizzaMVC.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignIn(LoginUserDto model)
         {
+           
             LoginUserValidator validator = new LoginUserValidator();
             var validationResult = validator.Validate(model);
             if (validationResult.IsValid) 
@@ -56,7 +62,7 @@ namespace SayronPizzaMVC.Web.Controllers
         public async Task<IActionResult> Logout(LoginUserDto model)
         {
             await _userService.LogoutAsync();
-            return View("SignIn");
+            return RedirectToAction(nameof(SignIn));
         }
 
         [AllowAnonymous]
@@ -79,7 +85,15 @@ namespace SayronPizzaMVC.Web.Controllers
             return View();
             
         }
-
+        public async Task<IActionResult> Profile(string id)
+        {
+            var result = await _userService.GetByIdAsync(id);
+            if (result.Success)
+            {
+                return View(result.Payload);
+            }
+            return View();
+        }
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(string email, string token)
         {
@@ -185,7 +199,7 @@ namespace SayronPizzaMVC.Web.Controllers
             var validationResult = validation.Validate(editUser);
             if (validationResult.IsValid)
             {
-                var result = await _userService.UpdateUserAsync(editUser);
+                var result = await _userService.EditUserAsync(editUser);
                 if (result.Success)
                 {
 
@@ -198,6 +212,22 @@ namespace SayronPizzaMVC.Web.Controllers
             return View("Edit");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePassword(ChangePasswordDto model)
+        {
+            var validator = new ChangePasswordValidation();
+            var validationResult = await validator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            {
+                var result = await _userService.ChangePasswordAsync(model);
+                return RedirectToAction(nameof(GetAll));
+            }
+            else
+            {
+                return View(validationResult.Errors);
+            }
+        }
         private async Task GetRoles()
         {
             var result = await _userService.LoadRoles();

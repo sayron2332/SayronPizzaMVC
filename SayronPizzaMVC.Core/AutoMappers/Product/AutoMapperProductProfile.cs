@@ -14,6 +14,10 @@ namespace SayronPizzaMVC.Core.AutoMappers.Product
         public AutoMapperProductProfile()
         {
             CreateMap<AppProduct, PizzaDto>();
+            CreateMap<AppProduct, DrinkDto>();
+            CreateMap<AppProduct, DessertsDto>();
+            CreateMap<AppProduct, SaladsDto>();
+            CreateMap<AppProduct, SidesDto>();
 
             CreateMap<AppProduct, ProductDto>().ReverseMap();
         }

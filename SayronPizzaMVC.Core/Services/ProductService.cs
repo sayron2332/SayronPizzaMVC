@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using SayronPizzaMVC.Core.DTO_s.Products;
@@ -36,6 +38,32 @@ namespace SayronPizzaMVC.Core.Services
             var result = await _productRepo.GetListBySpec(new ProductSpecification.GetAllByCategoryName("pizza"));
             List<PizzaDto> pizzaList = _mapper.Map<List<PizzaDto>>(result);
             return pizzaList;
+        }
+        public async Task<List<DrinkDto>> GetAllDrinks()
+        {
+            var result = await _productRepo.GetListBySpec(new ProductSpecification.GetAllByCategoryName("drinks"));
+            List<DrinkDto> drinkList = _mapper.Map<List<DrinkDto>>(result);
+            return drinkList;
+        }
+        public async Task<List<DessertsDto>> GetAllDesserts()
+        {
+            var result = await _productRepo.GetListBySpec(new ProductSpecification.GetAllByCategoryName("desserts"));
+            List<DessertsDto> dessertsList = _mapper.Map<List<DessertsDto>>(result);
+            return dessertsList;
+        }
+
+        public async Task<List<SaladsDto>> GetAllSalads()
+        {
+            var result = await _productRepo.GetListBySpec(new ProductSpecification.GetAllByCategoryName("salads"));
+            List<SaladsDto> SaladsList = _mapper.Map<List<SaladsDto>>(result);
+            return SaladsList;
+        }
+
+        public async Task<List<SidesDto>> GetAllSides()
+        {
+            var result = await _productRepo.GetListBySpec(new ProductSpecification.GetAllByCategoryName("sides"));
+            List<SidesDto> SidesList = _mapper.Map<List<SidesDto>>(result);
+            return SidesList;
         }
 
         public async Task<List<ProductDto>> GetAllProducts()
@@ -113,6 +141,15 @@ namespace SayronPizzaMVC.Core.Services
             await _productRepo.Save();
 
         }
+        public async Task<List<ProductDto>> GetByCategory(int id)
+        {
+            var result = await _productRepo.GetListBySpec(new ProductSpecification.ByCategory(id));
+            return _mapper.Map<List<ProductDto>>(result);
+        }
+
+      
+
+
     }
     
 }

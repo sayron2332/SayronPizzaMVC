@@ -312,9 +312,9 @@ namespace SayronPizzaMVC.Core.Services
             };
 
         }
-        public async Task<ServiceResponse> UpdateUserAsync(EditUserDto model)
+        public async Task<ServiceResponse> EditUserAsync(EditUserDto model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            var user = await _userManager.FindByIdAsync(model.Id);
             if (user == null)
             {
                 return new ServiceResponse
@@ -323,69 +323,90 @@ namespace SayronPizzaMVC.Core.Services
                     Success = false
                 };
             }
-            else
+
+            user.LastName = model.LastName;
+            user.FirstName = model.FirstName;
+            
+            if (user.Email != model.Email)
             {
-                var currentRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                user.EmailConfirmed = false;
+                user.Email = model.Email;
+                user.UserName = model.Email;
+                await SendConfirmationEmail(user);
+            }
+            var currentRole = await _userManager.GetRolesAsync(user);
+            if (model.Role != currentRole[0])
+            {
+                await _userManager.RemoveFromRoleAsync(user, currentRole[0]);
+                await _userManager.AddToRoleAsync(user, model.Role);
 
-                if (user.Email != model.Email)
-                {
+            }
 
-                    await _userManager.RemoveFromRoleAsync(user, currentRole);
-                    var res = await _userManager.FindByIdAsync(model.Email);
-                    res.EmailConfirmed = false;
-                    var confirmationResut = await _userManager.UpdateAsync(res);
-                }
-
-
-
-                if (currentRole != model.Role)
-                {
-                    await _userManager.RemoveFromRoleAsync(user, currentRole);
-                }
-
-
-
-                var updatedUser = _autoMapper.Map<AppUser>(user);
-                updatedUser.Email = model.Email;
-                updatedUser.FirstName = model.FirstName;
-                updatedUser.LastName = model.LastName;
-                updatedUser.UserName = model.Email;
-
-                await _userManager.AddToRoleAsync(updatedUser, model.Role);
-
-                var result = await _userManager.UpdateAsync(updatedUser);
-                if (result.Succeeded)
-                {
-
-                    if (updatedUser.EmailConfirmed)
-                    {
-                        return new ServiceResponse
-                        {
-                            Message = "User successfully updated.",
-                            Success = true
-                        };
-                    }
-                    else
-                    {
-                        await SendConfirmEmailAsync(updatedUser);
-                        return new ServiceResponse
-                        {
-                            Message = "Confirm email please.",
-                            Success = true
-                        };
-                    }
-                }
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
 
                 return new ServiceResponse
                 {
-                    Message = "Email possibly used. Try another email.",
+                    Message = "User successfully updated.",
+                    Success = true
+                };
+            }
+
+            List<IdentityError> errorList = result.Errors.ToList();
+            string errors = "";
+
+            foreach (var error in errorList)
+            {
+                errors = errors + error.Description.ToString();
+            }
+            return new ServiceResponse
+            {
+                Message = errors,
+                Success = false
+            };
+
+        }
+        public async Task<ServiceResponse> ChangePasswordAsync(ChangePasswordDto model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return new ServiceResponse
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+
+            if (model.Password != model.ConfirmPassword)
+            {
+                return new ServiceResponse
+                {
+                    Message = "Password do not match.",
+                    Success = false
+                };
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+            if (result.Succeeded)
+            {
+                return new ServiceResponse
+                {
+                    Message = "Password successfully updated.",
+                    Success = true,
+                };
+            }
+            else
+            {
+                return new ServiceResponse
+                {
+                    Message = "Password not updated.",
                     Success = false,
                     Errors = result.Errors.Select(e => e.Description),
                 };
-
             }
         }
-
 
     }
 }

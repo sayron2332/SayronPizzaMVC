@@ -53,7 +53,9 @@ namespace SayronPizzaMVC.Web.Controllers
                 await _productService.Create(model);
                 return RedirectToAction("Index", "Product");
             }
+
             ViewBag.AuthError = validationResult.Errors[0];
+            await LoadCategories();
             return View();
         }
       
@@ -81,8 +83,10 @@ namespace SayronPizzaMVC.Web.Controllers
                 return RedirectToAction("Index", "Product");
             }
             ViewBag.CreateProductError = validationResult.Errors[0];
+            await LoadCategories();
             return View(model);
         }
+      
         private async Task LoadCategories()
         {
             ViewBag.CategoryList = new SelectList(

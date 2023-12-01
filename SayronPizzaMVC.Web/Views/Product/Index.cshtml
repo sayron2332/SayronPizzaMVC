@@ -58,7 +58,7 @@
                                             <h3>@item.Name</h3>
                                             <p class="mb-0">@Html.Raw(@item.Description)</p>
                                         </div>
-                                        <a asp-controller="Product" asp-action="PostsByCategory" asp-route-id="@item.AppCategoryId" class="btn btn-default btn-sm">@item.AppCategoryName</a>
+                                        <span>@item.AppCategoryName</span>
                                     </div>
                                 </div>
                                 <div class="row">

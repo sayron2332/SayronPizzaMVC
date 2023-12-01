@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Microsoft.Extensions.Hosting;
 using SayronPizzaMVC.Core.Entites.Category;
 using SayronPizzaMVC.Core.Entites.Product;
 using System;
@@ -24,6 +25,15 @@ namespace SayronPizzaMVC.Core.Entites.Specification
             public All()
             {
                 Query.Include(x => x.AppCategory);
+            }
+        }
+        public class ByCategory : Specification<AppProduct>
+        {
+            public ByCategory(int categoryId)
+            {
+                Query
+                  .Include(x => x.AppCategory)
+                  .Where(c => c.AppCategoryId == categoryId).OrderByDescending(x => x.Id); ;
             }
         }
     }

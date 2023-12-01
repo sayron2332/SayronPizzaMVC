@@ -1,3 +1,29 @@
-﻿<h1>
-    hello
-</h1>
+﻿@using SayronPizzaMVC.Core.DTO_s.Products
+@model IEnumerable<SidesDto>
+<div class="main container" style="padding: 100px 0px;">
+    <div class="main__title">
+        <h2>Sides</h2>
+    </div>
+    <div class="main__content" style="display:flex; flex-wrap:wrap; justify-content:space-around;">
+
+        @if (Model != null)
+        {
+            int i = 0;
+            @foreach (var item in Model)
+            {
+                i++;
+                <div id="@i" class="card" style="margin:25px">
+                    <div class="card__photo"><img src="/images/products/@item.ImagePath" alt=""></div>
+                    <div class="card__title">@item.Name</div>
+                    <div class="card__size">@item.Size грам</div>
+                    <div class="card__price">
+                        <div class="card__priceContent">@item.Price ₴</div>
+                    </div>
+                    <div class="card__button"><button>Додати до кошика</button></div>
+                </div>
+            }
+        }
+
+
+    </div>
+</div>
