@@ -36,9 +36,14 @@ namespace SayronPizzaMVC.Web.Controllers
             List<DessertsDto> result = await _productService.GetAllDesserts();
             return View(result);
         }
+        public async Task<IActionResult> PrintDrinks()
+        {
+            List<DrinkDto> result = await _productService.GetAllDrinks();
+            return View(result);
+        }
 
 
-       
+
 
     }
 }
