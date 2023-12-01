@@ -2,8 +2,7 @@
 
 let row = document.querySelector(".main__content");
 let basket = document.querySelector(".basket__order");
-
-console.log(row);
+let sum = document.querySelector(".Sum");
 
 let id = 0;
 
@@ -18,6 +17,8 @@ row.addEventListener("click", function (event) {
             size: product.querySelector('.card__size').innerText,
             price: product.querySelector('.card__priceContent').innerText,
         }
+
+        sum.innerHTML = parseInt(sum.innerHTML) + parseInt(productInfo.price);
 
         let productHtml = `<div class="basket__orderItem">
         <div class="basket__orderImg">
@@ -41,12 +42,22 @@ row.addEventListener("click", function (event) {
         </div>
     </div>`;
 
-        console.log(productInfo);
 
         basket.insertAdjacentHTML('beforeend', productHtml);
 
-       
+        console.log(productInfo);
     }
 
 });
 
+let buttonBasket = document.querySelector('.openBasket');
+let buttonBasketClose = document.querySelector('.basket__close');
+let Basket = document.querySelector('.basket');
+
+buttonBasket.addEventListener("click", function (event) {
+    Basket.classList.add('basketActive');
+});
+
+buttonBasketClose.addEventListener("click", function (event) {
+    Basket.classList.remove('basketActive');
+});

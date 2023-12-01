@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @using SayronPizzaMVC.Core.Entites.User;
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,11 +12,13 @@
     <title>Document</title>
 </head>
 
+
 @inject UserManager<AppUser> UserManager
+
 @{
     var user = await UserManager.GetUserAsync(User);
+   
 }
-
 <body>
     <div class="wrapper ">
         <div class="container-fluid">
@@ -56,21 +59,16 @@
                             <span>@user.Email</span>
                             <a style="color:white;" asp-action="Logout">Logout</a>
                         }
-                        @if (user == null)
+                        @if (user== null)
                         {
-                            <a asp-action="SignIn">
-
+                            <a href="
+                        ">
                                 <img src="/images/logos/user-icon.png"></img>
                                 <span>Увійти</span>
-
                             </a>
 
                         }
                        
-                       
-                       
-                       
-                    
 
                     </div>
                 </div>
@@ -114,13 +112,13 @@
                         </li>
                         <li class="header__row-2-navmenu-item col-md-2">
 
-                            <a class="header__row-2-navmenu-item-link"  asp-action="PrintDrinks">
-                                
+                            <a class="header__row-2-navmenu-item-link" asp-action="PrintDrinks">
+
                                 <img src="/images/menu-icons/icon-beerglass.png" alt="">
                                 <span>Напої</span>
                             </a>
                         </li>
-                        
+
 
                     </ul>
 
@@ -129,10 +127,10 @@
                         <a class="header__row-2-goAcount-like" href="">
                             <img src="/images/menu-icons/icon-like.png" alt="">
                         </a>
-                        <a class="header__row-2-goAcount-basket
-                        basket" asp-action="PrintBasket">
-                            <img src="/images/menu-icons/icon-basket.png" alt="">
-                        </a>
+                        <button class="openBasket header__row-2-goAcount-basket
+                        " href="">
+                            <img src="images/menu-icons/icon-basket.png" alt="">
+                        </button>
                     </div>
                 </div>
                 <div class="header__row-3">
@@ -142,9 +140,93 @@
 
         <div class="main" style="padding: 0px 0px;">
             @RenderBody()
-           
+
 
         </div>
+
+
+
+
+        <div class="basket">
+            <div class="basket__content">
+
+                <button class="basket__close">
+                </button>
+
+                <div class="basket__title">
+                    Корзина
+                </div>
+                <div class="twoBlock">
+                    <div class="basket__order">
+                        <div class="basket__orderDescription">
+                            <div>
+                                Продукт
+                            </div>
+
+                            <div>
+                                Ціна
+                            </div>
+
+                            <div>
+                                Розмір
+                            </div>
+
+                            <div>
+                                Кінцева ціна
+                            </div>
+                        </div>
+
+                        <!-- <div class="basket__orderItem">
+                            <div class="basket__orderImg">
+                                <img src="/images/pizza/pizza1.png" alt="">
+                            </div>
+
+                            <div class="basket__orderName">
+                                Піца по Київські
+                                <div class="basket__size">
+                                    30см
+                                </div>
+                            </div>
+
+                            <div class="basket__orderPrice">
+                                269,0 ₴
+                            </div>
+
+                            <div class="basket__size">
+                                400g
+                            </div>
+
+                            <div class="basket__Subtotal">
+                                239,0 ₴
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="basket__totalContent">
+                        <div class="basket__total">
+
+                            <div class="basket__totalSum">
+                                <div>ВСЬОГО:</div>
+                                <div><div class="Sum">0</div> ₴</div>
+                            </div>
+
+                            <div class="basket__totalButton">
+                                <a>
+                                    Замовить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
 
         <footer class="footer">
             <div class="container">
@@ -223,6 +305,6 @@
     </div>
 </body>
 
- <script src="/js/site.js"></script>
+<script src="/js/site.js"></script>
 
 </html>
