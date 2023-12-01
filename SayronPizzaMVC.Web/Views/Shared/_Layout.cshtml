@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@using SayronPizzaMVC.Core.Entites.User;
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,6 +10,11 @@
     <link rel="stylesheet" href="~/css/Layout//Layout.css">
     <title>Document</title>
 </head>
+
+@inject UserManager<AppUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
 <body>
     <div class="wrapper ">
@@ -44,11 +51,26 @@
                         <span>+38 (097) 043-56-65</span>
                     </div>
                     <div class="header__row-1-logos col-md-2">
-                        <a href="
-                        ">
-                            <img src="/images/logos/user-icon.png"></img>
-                            <span>Увійти</span>
-                        </a>
+                        @if (user != null)
+                        {
+                            <span>@user.Email</span>
+                            <a style="color:white;" asp-action="Logout">Logout</a>
+                        }
+                        @if (user == null)
+                        {
+                            <a asp-action="SignIn">
+
+                                <img src="/images/logos/user-icon.png"></img>
+                                <span>Увійти</span>
+
+                            </a>
+
+                        }
+                       
+                       
+                       
+                       
+                    
 
                     </div>
                 </div>

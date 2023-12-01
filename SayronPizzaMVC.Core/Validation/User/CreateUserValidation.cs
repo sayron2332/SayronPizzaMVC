@@ -15,7 +15,6 @@ namespace SayronPizzaMVC.Core.Validation.User
             RuleFor(r => r.FirstName).NotEmpty().MaximumLength(64).MinimumLength(2);
             RuleFor(r => r.LastName).NotEmpty().MaximumLength(64).MinimumLength(2);
             RuleFor(r => r.Email).NotEmpty().EmailAddress().MaximumLength(128);
-            RuleFor(r => r.Role).NotEmpty();
             RuleFor(r => r.Password).NotEmpty().MinimumLength(6);
             RuleFor(r => r.ConfirmPassword).NotEmpty().MinimumLength(6).Equal(p => p.Password);
         }
